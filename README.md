@@ -60,3 +60,8 @@ Vsaka storitev ima svojo podatkovno bazo
  - pregled zgodovine plačil
  - preverjanje neporavnanih obveznosti
  - upravljanje statusa plačil
+
+# 3. Arhitekturo sistema
+
+
+<img width="1069" height="672" alt="Screenshot 2026-03-10 at 00 31 43" src="https://github.com/user-attachments/assets/b6bb9afe-c119-4d89-9a16-24e94bc5dba8" />
