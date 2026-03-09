@@ -65,3 +65,50 @@ Vsaka storitev ima svojo podatkovno bazo
 
 
 <img width="1069" height="672" alt="Screenshot 2026-03-10 at 00 31 43" src="https://github.com/user-attachments/assets/b6bb9afe-c119-4d89-9a16-24e94bc5dba8" />
+
+# 4. Struktura repozitorija
+
+fitness-membership-system/
+│
+├── README.md
+│
+├── docs/
+│   └── architecture-diagram.md
+│
+├── member-management/
+│   ├── README.md
+│   └── src/
+│
+├── subscription-management/
+│   ├── README.md
+│   └── src/
+│
+├── payment-management/
+│   ├── README.md
+│   └── src/
+│
+└── web-application/
+    ├── README.md
+    └── src/
+
+  # 5. Komunikacija med storitvami
+
+Mikrostoritve v sistemu komunicirajo preko REST API vmesnikov. Komunikacija poteka preko protokola HTTP z uporabo JSON formata za izmenjavo podatkov.
+Uporabniški vmesnik pošilja zahteve mikrostoritvam za pridobivanje informacij o članih, naročninah in statusu plačil.
+
+Primer komunikacije:
+- Web aplikacija pošlje zahtevo storitvi Member Management za preverjanje člana.
+- Web aplikacija pošlje zahtevo storitvi Subscription Management za preverjanje veljavnosti naročnine.
+- Web aplikacija pošlje zahtevo storitvi Payment Management za preverjanje statusa plačila.
+- Na podlagi pridobljenih podatkov sistem določi, ali je dostop člana dovoljen.
+
+# Specifikacija vmesnikov
+Komunikacija med storitvami temelji na REST API vmesnikih. Pri implementaciji bodo API vmesniki dokumentirani z uporabo specifikacije OpenAPI.
+
+Primer endpointov:
+- Member Management
+GET /members/{cardId}
+- Subscription Management
+GET /subscriptions/{memberId}
+- Payment Management
+GET /payments/status/{memberId}
