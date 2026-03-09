@@ -40,23 +40,23 @@ Vsaka storitev ima svojo podatkovno bazo
   # 1. Member Management
  upravlja podatke o članih fitness centra.
  Odgovornosti:
- registracija novih članov
- upravljanje osebnih podatkov članov
- upravljanje identifikacijske kartice člana
- iskanje člana na podlagi identifikacijske kartice
+ - registracija novih članov
+ - upravljanje osebnih podatkov članov
+ - upravljanje identifikacijske kartice člana
+ - iskanje člana na podlagi identifikacijske kartice
 
   # 2. Subscription Management
-    upravlja naročnine članov.
-  Odgovornosti:
-  ustvarjanje novih naročnin
-  določanje trajanja naročnin
-  preverjanje veljavnosti naročnine
-  podaljševanje naročnin
+ upravlja naročnine članov.
+ Odgovornosti:
+ - ustvarjanje novih naročnin
+ - določanje trajanja naročnin
+ - preverjanje veljavnosti naročnine
+ - podaljševanje naročnin
 
   # 3. Payment Management
-    upravlja plačila članov.
-  Odgovornosti:
-  beleženje plačil
-  pregled zgodovine plačil
-  preverjanje neporavnanih obveznosti
-  upravljanje statusa plačil
+ upravlja plačila članov.
+ Odgovornosti:
+ - beleženje plačil
+ - pregled zgodovine plačil
+ - preverjanje neporavnanih obveznosti
+ - upravljanje statusa plačil
