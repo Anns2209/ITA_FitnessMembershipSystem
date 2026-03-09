@@ -38,12 +38,12 @@ Vsaka storitev ima svojo podatkovno bazo
 # 2. Glavne domene in mikrostoritve
 
   # 1. Member Management
-     upravlja podatke o članih fitness centra.
-    Odgovornosti:
-    registracija novih članov
-    upravljanje osebnih podatkov članov
-    upravljanje identifikacijske kartice člana
-    iskanje člana na podlagi identifikacijske kartice
+ upravlja podatke o članih fitness centra.
+ Odgovornosti:
+ registracija novih članov
+ upravljanje osebnih podatkov članov
+ upravljanje identifikacijske kartice člana
+ iskanje člana na podlagi identifikacijske kartice
 
   # 2. Subscription Management
     upravlja naročnine članov.
