@@ -68,28 +68,8 @@ Vsaka storitev ima svojo podatkovno bazo
 
 # 4. Struktura repozitorija
 
-fitness-membership-system/
-│
-├── README.md
-│
-├── docs/
-│   └── architecture-diagram.md
-│
-├── member-management/
-│   ├── README.md
-│   └── src/
-│
-├── subscription-management/
-│   ├── README.md
-│   └── src/
-│
-├── payment-management/
-│   ├── README.md
-│   └── src/
-│
-└── web-application/
-    ├── README.md
-    └── src/
+<img width="325" height="472" alt="Screenshot 2026-03-10 at 00 50 39" src="https://github.com/user-attachments/assets/26ee9571-1a9b-47b8-9ceb-038a5653ef69" />
+
 
   # 5. Komunikacija med storitvami
 
