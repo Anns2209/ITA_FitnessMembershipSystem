@@ -1,7 +1,10 @@
-from pydantic import BaseModel
+from sqlalchemy import Column, Integer, String
+from app.database import Base
 
-class Member(BaseModel):
-    id: int
-    name: str
-    email: str
-    card_id: str
+class Member(Base):
+    __tablename__ = "members"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
+    email = Column(String)
+    card_id = Column(String)
