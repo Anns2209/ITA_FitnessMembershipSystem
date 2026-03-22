@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package subscription;
+
+service SubscriptionService {
+  rpc CreateSubscription (SubscriptionRequest) returns (SubscriptionResponse);
+  rpc GetSubscriptionStatus (MemberRequest) returns (SubscriptionStatusResponse);
+}
+
+message SubscriptionRequest {
+  int32 memberId = 1;
+  string type = 2;
+}
+
+message SubscriptionResponse {
+  string message = 1;
+}
+
+message MemberRequest {
+  int32 memberId = 1;
+}
+
+message SubscriptionStatusResponse {
+  string status = 1;
+}
