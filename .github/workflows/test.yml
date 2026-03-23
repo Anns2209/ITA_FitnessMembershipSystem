@@ -3,7 +3,8 @@ name: Run Tests
 on: [push]
 
 jobs:
-  test:
+
+  python-tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,3 +24,27 @@ jobs:
         run: |
           cd member-management
           pytest
+
+
+  node-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          cd subscription-management
+          npm install
+
+      - name: Run tests
+        run: |
+          cd subscription-management
+          npm test
+    
