@@ -1,17 +1,13 @@
-const sqlite3 = require("sqlite3").verbose();
+const Database = require('better-sqlite3');
+const db = new Database('subscriptions.db');
 
-const db = new sqlite3.Database("./subscriptions.db");
-
-
-db.serialize(() => {
-  db.run(`
-    CREATE TABLE IF NOT EXISTS subscriptions (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      memberId INTEGER,
-      type TEXT,
-      status TEXT
-    )
-  `);
-});
+db.prepare(`
+  CREATE TABLE IF NOT EXISTS subscriptions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    memberId INTEGER,
+    type TEXT,
+    status TEXT
+  )
+`).run();
 
 module.exports = db;

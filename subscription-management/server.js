@@ -7,25 +7,51 @@ const packageDef = protoLoader.loadSync("proto/subscription.proto");
 const grpcObject = grpc.loadPackageDefinition(packageDef);
 const subscriptionPackage = grpcObject.subscription;
 
-const service = require("./service");
+
+const server = new grpc.Server();
 
 // dodaj service
 server.addService(subscriptionPackage.SubscriptionService.service, {
 
   CreateSubscription: (call, callback) => {
-  service.createSubscription(
-    call.request.memberId,
-    call.request.type,
-    callback
-  );
-},
+    console.log("Creating subscription for member:", call.request.memberId);
+
+    db.run(
+      "INSERT INTO subscriptions (memberId, type, status) VALUES (?, ?, ?)",
+      [call.request.memberId, call.request.type, "active"],
+      function (err) {
+        if (err) {
+          console.error("DB error:", err);
+          return callback(err);
+        }
+
+        console.log("Subscription created with ID:", this.lastID);
+
+        callback(null, { message: "Subscription created" });
+      }
+    );
+  },
 
   GetSubscriptionStatus: (call, callback) => {
-  service.getSubscriptionStatus(
-    call.request.memberId,
-    callback
-  );
-},
+    console.log("Fetching subscription for member:", call.request.memberId);
+
+    db.get(
+      "SELECT * FROM subscriptions WHERE memberId = ?",
+      [call.request.memberId],
+      (err, row) => {
+        if (err) {
+          console.error("DB error:", err);
+          return callback(err);
+        }
+
+        if (!row) {
+          return callback(null, { status: "not found" });
+        }
+
+        callback(null, { status: row.status });
+      }
+    );
+  }
 
 });
 

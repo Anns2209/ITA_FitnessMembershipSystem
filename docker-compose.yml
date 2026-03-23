@@ -2,6 +2,11 @@ version: "3"
 
 services:
   member-service:
-    build: .
+    build: ./member-management
     ports:
       - "8000:8000"
+
+  subscription-service:
+    build: ./subscription-management
+    ports:
+      - "50051:50051"
