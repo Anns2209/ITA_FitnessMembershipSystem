@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 
 services:
   member-service:
@@ -10,3 +10,31 @@ services:
     build: ./subscription-management
     ports:
       - "50051:50051"
+
+
+  postgres:
+    image: postgres
+    container_name: postgres-db
+    environment:
+      POSTGRES_DB: paymentdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+
+  activemq:
+    image: rmohr/activemq
+    container_name: activemq
+    ports:
+      - "61616:61616"
+      - "8161:8161"
+
+  payment-service:
+    build: ./payment-management
+    container_name: payment-service
+    depends_on:
+      - postgres
+      - activemq
+    ports:
+      - "8080:8080"
+  
