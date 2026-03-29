@@ -7,21 +7,28 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
+import com.example.payment.messaging.PaymentProducer;
 
 @Service
 public class PaymentService {
 
     private final PaymentRepository repository;
+    private final PaymentProducer producer;
 
-    public PaymentService(PaymentRepository repository) {
+    public PaymentService(PaymentRepository repository, PaymentProducer producer) {
         this.repository = repository;
+        this.producer = producer;
     }
 
     // ustvarjanje plačila
     public Mono<Payment> createPayment(Integer memberId, BigDecimal amount) {
-        Payment payment = new Payment(memberId, amount, "PAID");
-        return repository.save(payment);
-    }
+    Payment payment = new Payment(memberId, amount, "PAID");
+
+    return repository.save(payment)
+            .doOnSuccess(p -> {
+                producer.sendPaymentMessage("Payment created for member " + memberId);
+            });
+}
 
     // vsa plačila
     public Flux<Payment> getAllPayments() {
