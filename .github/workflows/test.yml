@@ -47,4 +47,22 @@ jobs:
         run: |
           cd subscription-management
           npm test
+
+  java-tests:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build and test
+        run: |
+          cd payment-management
+          ./mvnw test
     

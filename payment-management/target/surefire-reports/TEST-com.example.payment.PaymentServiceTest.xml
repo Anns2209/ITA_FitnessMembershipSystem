@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.example.payment.PaymentManagementApplicationTests" time="4.881" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.example.payment.PaymentServiceTest" time="0.078" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -63,56 +63,5 @@
     <property name="java.class.version" value="65.0"/>
     <property name="LOGGED_APPLICATION_NAME" value="[payment-management] "/>
   </properties>
-  <testcase name="contextLoads" classname="com.example.payment.PaymentManagementApplicationTests" time="0.003">
-    <system-out><![CDATA[22:29:07.981 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.payment.PaymentManagementApplicationTests]: PaymentManagementApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-22:29:08.032 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.payment.PaymentManagementApplication for test class com.example.payment.PaymentManagementApplicationTests
-22:29:08.065 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.payment.PaymentManagementApplicationTests]: PaymentManagementApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-22:29:08.068 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.payment.PaymentManagementApplication for test class com.example.payment.PaymentManagementApplicationTests
-22:29:08.094 [main] INFO org.springframework.boot.devtools.restart.RestartApplicationListener -- Restart disabled due to context in which it is running
-
-  .   ____          _            __ _ _
- /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
-( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
- \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
-  '  |____| .__|_| |_|_| |_\__, | / / / /
- =========|_|==============|___/=/_/_/_/
-
- :: Spring Boot ::                (v4.0.5)
-
-2026-03-29T22:29:08.201+02:00  INFO 32105 --- [payment-management] [           main] c.e.p.PaymentManagementApplicationTests  : Starting PaymentManagementApplicationTests using Java 21.0.5 with PID 32105 (started by gjorcheska in /Users/gjorcheska/Documents/GitHub/ITA_FitnessMembershipSystem/payment-management)
-2026-03-29T22:29:08.201+02:00  INFO 32105 --- [payment-management] [           main] c.e.p.PaymentManagementApplicationTests  : No active profile set, falling back to 1 default profile: "default"
-2026-03-29T22:29:08.458+02:00  INFO 32105 --- [payment-management] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data R2DBC repositories in DEFAULT mode.
-2026-03-29T22:29:08.485+02:00  INFO 32105 --- [payment-management] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 23 ms. Found 1 R2DBC repository interface.
-2026-03-29T22:29:08.568+02:00  INFO 32105 --- [payment-management] [           main] org.testcontainers.images.PullPolicy     : Image pull policy will be performed by: DefaultPullPolicy()
-2026-03-29T22:29:08.569+02:00  INFO 32105 --- [payment-management] [           main] o.t.utility.ImageNameSubstitutor         : Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
-2026-03-29T22:29:08.583+02:00  INFO 32105 --- [payment-management] [           main] org.testcontainers.DockerClientFactory   : Testcontainers version: 2.0.4
-2026-03-29T22:29:08.696+02:00  INFO 32105 --- [payment-management] [           main] o.t.d.DockerClientProviderStrategy       : Loaded org.testcontainers.dockerclient.UnixSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
-2026-03-29T22:29:08.921+02:00  INFO 32105 --- [payment-management] [           main] o.t.d.DockerClientProviderStrategy       : Found Docker environment with local Unix socket (unix:///var/run/docker.sock)
-2026-03-29T22:29:08.921+02:00  INFO 32105 --- [payment-management] [           main] org.testcontainers.DockerClientFactory   : Docker host IP address is localhost
-2026-03-29T22:29:08.941+02:00  INFO 32105 --- [payment-management] [           main] org.testcontainers.DockerClientFactory   : Connected to docker: 
-  Server Version: 28.0.4
-  API Version: 1.48
-  Operating System: Docker Desktop
-  Total Memory: 7837 MB
-  Labels: 
-    com.docker.desktop.address=unix:///Users/gjorcheska/Library/Containers/com.docker.docker/Data/docker-cli.sock
-2026-03-29T22:29:09.238+02:00  INFO 32105 --- [payment-management] [           main] tc.testcontainers/ryuk:0.14.0            : Creating container for image: testcontainers/ryuk:0.14.0
-2026-03-29T22:29:09.376+02:00  INFO 32105 --- [payment-management] [           main] o.t.utility.RegistryAuthLocator          : Credential helper/store (docker-credential-desktop) does not have credentials for https://index.docker.io/v1/
-2026-03-29T22:29:09.469+02:00  INFO 32105 --- [payment-management] [           main] tc.testcontainers/ryuk:0.14.0            : Container testcontainers/ryuk:0.14.0 is starting: 0d7b61f80bcd671780a30fd674b5801f25ad058c0411162a82ec4984054febda
-2026-03-29T22:29:09.932+02:00  INFO 32105 --- [payment-management] [           main] tc.testcontainers/ryuk:0.14.0            : Container testcontainers/ryuk:0.14.0 started in PT0.693902S
-2026-03-29T22:29:09.936+02:00  INFO 32105 --- [payment-management] [           main] o.t.utility.RyukResourceReaper           : Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
-2026-03-29T22:29:09.937+02:00  INFO 32105 --- [payment-management] [           main] org.testcontainers.DockerClientFactory   : Checking the system...
-2026-03-29T22:29:09.937+02:00  INFO 32105 --- [payment-management] [           main] org.testcontainers.DockerClientFactory   : ✔︎ Docker server version should be at least 1.6.0
-2026-03-29T22:29:09.937+02:00  INFO 32105 --- [payment-management] [           main] tc.postgres:latest                       : Creating container for image: postgres:latest
-2026-03-29T22:29:09.995+02:00  INFO 32105 --- [payment-management] [           main] tc.postgres:latest                       : Container postgres:latest is starting: 7ba93d57dbbc6ba902bde5216c131aa27a1de2f78520c5cde32f5be558779707
-2026-03-29T22:29:11.000+02:00  INFO 32105 --- [payment-management] [           main] tc.postgres:latest                       : Container postgres:latest started in PT1.062449S
-2026-03-29T22:29:11.001+02:00  INFO 32105 --- [payment-management] [           main] tc.postgres:latest                       : Container is started (JDBC URL: jdbc:postgresql://localhost:60381/test?loggerLevel=OFF)
-2026-03-29T22:29:11.001+02:00  INFO 32105 --- [payment-management] [           main] tc.apache/activemq:latest                : Creating container for image: apache/activemq:latest
-2026-03-29T22:29:11.048+02:00  INFO 32105 --- [payment-management] [           main] tc.apache/activemq:latest                : Container apache/activemq:latest is starting: ba4b1c16372ff4812836274efd74b9720794164ff5a7b380ab878a7e85968b88
-2026-03-29T22:29:12.182+02:00  INFO 32105 --- [payment-management] [           main] tc.apache/activemq:latest                : Container apache/activemq:latest started in PT1.180568S
-2026-03-29T22:29:12.807+02:00  INFO 32105 --- [payment-management] [           main] c.e.p.PaymentManagementApplicationTests  : Started PaymentManagementApplicationTests in 4.717 seconds (process running for 5.64)
-2026-03-29T22:29:12.808+02:00  WARN 32105 --- [payment-management] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
-2026-03-29T22:29:12.808+02:00  WARN 32105 --- [payment-management] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
-]]></system-out>
-  </testcase>
+  <testcase name="testCreatePayment" classname="com.example.payment.PaymentServiceTest" time="0.078"/>
 </testsuite>
