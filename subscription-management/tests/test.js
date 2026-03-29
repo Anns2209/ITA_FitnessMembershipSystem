@@ -1,5 +1,5 @@
 const assert = require("assert");
-const service = require("../service");
+const service = require("../app/service");
 
 describe("Subscription Service", () => {
 
