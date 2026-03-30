@@ -22,7 +22,9 @@ public class PaymentController {
     @PostMapping
     public Mono<Payment> createPayment(
             @RequestParam Integer memberId,
-            @RequestParam BigDecimal amount
+            @RequestParam BigDecimal amount,
+            @RequestParam(defaultValue = "PAID") String status
+          
     ) {
         return service.createPayment(memberId, amount);
     }

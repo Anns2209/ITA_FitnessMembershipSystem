@@ -1,8 +1,9 @@
 {
   "name": "subscription-management",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app/server.js",
   "scripts": {
+    "start": "node app/server.js",
     "test": "mocha tests"
   },
   "keywords": [],

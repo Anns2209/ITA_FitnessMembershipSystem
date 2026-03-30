@@ -1,14 +1,13 @@
 spring:
   r2dbc:
-    url: r2dbc:postgresql://localhost:5432/paymentdb
+    url: r2dbc:postgresql://postgres:5432/paymentdb
     username: postgres
     password: postgres
-  
 
   sql:
     init:
       mode: always
-
+      schema-locations: classpath:schema.sql
 
   activemq:
     broker-url: tcp://activemq:61616
