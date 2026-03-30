@@ -41,6 +41,9 @@ services:
       SPRING_R2DBC_URL: r2dbc:postgresql://postgres:5432/paymentdb
       SPRING_R2DBC_USERNAME: postgres
       SPRING_R2DBC_PASSWORD: postgres
+      SPRING_ACTIVEMQ_BROKER_URL: tcp://activemq:61616
+      SPRING_ACTIVEMQ_USER: admin
+      SPRING_ACTIVEMQ_PASSWORD: admin 
 
 volumes:
   postgres_data:
