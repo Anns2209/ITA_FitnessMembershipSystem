@@ -54,6 +54,15 @@ services:
     ports:
       - "3000:3000"
 
+  mobile-bff:
+    build: ./mobile-bff
+    container_name: mobile-bff
+    depends_on:
+      - member-service
+      - payment-service
+    ports:
+      - "8002:8001"
+
 volumes:
   postgres_data:
 
