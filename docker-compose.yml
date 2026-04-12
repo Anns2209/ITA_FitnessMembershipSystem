@@ -45,6 +45,15 @@ services:
       SPRING_ACTIVEMQ_USER: admin
       SPRING_ACTIVEMQ_PASSWORD: admin 
 
+  web-bff:
+    build: ./web-bff
+    container_name: web-bff
+    depends_on:
+      - member-service
+      - payment-service
+    ports:
+      - "3000:3000"
+
 volumes:
   postgres_data:
 

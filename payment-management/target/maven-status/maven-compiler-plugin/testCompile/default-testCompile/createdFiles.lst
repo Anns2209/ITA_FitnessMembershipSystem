@@ -1,3 +1,5 @@
+com/example/payment/PaymentServiceTest.class
 com/example/payment/TestcontainersConfiguration.class
+com/example/payment/PaymentControllerTest.class
 com/example/payment/PaymentManagementApplicationTests.class
 com/example/payment/TestPaymentManagementApplication.class
