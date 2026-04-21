@@ -6,7 +6,11 @@ const protoLoader = require("@grpc/proto-loader");
 const app = express();
 app.use(express.json());
 
-const packageDef = protoLoader.loadSync("../subscription-management/proto/subscription.proto");
+const path = require("path");
+
+const packageDef = protoLoader.loadSync(
+  path.join(__dirname, "proto", "subscription.proto")
+);
 const grpcObject = grpc.loadPackageDefinition(packageDef);
 const subscriptionPackage = grpcObject.subscription;
 

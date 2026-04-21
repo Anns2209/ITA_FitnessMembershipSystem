@@ -63,6 +63,30 @@ services:
     ports:
       - "8002:8001"
 
+  frontend-shell:
+    build: ./frontend-shell
+    container_name: frontend-shell
+    ports:
+      - "4173:80"
+
+  member-frontend:
+    build: ./member-frontend
+    container_name: member-frontend
+    ports:
+      - "4174:80"
+
+  subscription-frontend:
+    build: ./subscription-frontend
+    container_name: subscription-frontend
+    ports:
+      - "4175:80"
+
+  payment-frontend:
+    build: ./payment-frontend
+    container_name: payment-frontend
+    ports:
+      - "4176:80"
+
 volumes:
   postgres_data:
 

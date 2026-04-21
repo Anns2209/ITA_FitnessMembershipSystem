@@ -10,7 +10,7 @@ function Home() {
         <div style={cardStyle}>
           <h3>Member Frontend</h3>
           <p>Pregled in dodajanje članov fitness centra.</p>
-          <a href="http://localhost:5174" target="_blank" rel="noreferrer">
+          <a href="http://localhost:4174" target="_blank" rel="noreferrer">
             Odpri Member Frontend
           </a>
         </div>
@@ -18,7 +18,7 @@ function Home() {
         <div style={cardStyle}>
           <h3>Subscription Frontend</h3>
           <p>Ustvarjanje naročnin in preverjanje statusa naročnine.</p>
-          <a href="http://localhost:5175" target="_blank" rel="noreferrer">
+          <a href="http://localhost:4175" target="_blank" rel="noreferrer">
             Odpri Subscription Frontend
           </a>
         </div>
@@ -26,7 +26,7 @@ function Home() {
         <div style={cardStyle}>
           <h3>Payment Frontend</h3>
           <p>Pregled plačil, neporavnanih obveznosti in dodajanje plačil.</p>
-          <a href="http://localhost:5176" target="_blank" rel="noreferrer">
+          <a href="http://localhost:4176" target="_blank" rel="noreferrer">
             Odpri Payment Frontend
           </a>
         </div>
@@ -40,7 +40,7 @@ function MembersPage() {
     <div>
       <h2>Member Module</h2>
       <p>Ta modul omogoča prikaz vseh članov in dodajanje novega člana.</p>
-      <a href="http://localhost:5174" target="_blank" rel="noreferrer">
+      <a href="http://localhost:4174" target="_blank" rel="noreferrer">
         Odpri Member Frontend
       </a>
     </div>
@@ -52,7 +52,7 @@ function SubscriptionPage() {
     <div>
       <h2>Subscription Module</h2>
       <p>Ta modul omogoča ustvarjanje naročnin in preverjanje njihove veljavnosti.</p>
-      <a href="http://localhost:5175" target="_blank" rel="noreferrer">
+      <a href="http://localhost:4175" target="_blank" rel="noreferrer">
         Odpri Subscription Frontend
       </a>
     </div>
@@ -64,7 +64,7 @@ function PaymentPage() {
     <div>
       <h2>Payment Module</h2>
       <p>Ta modul omogoča pregled plačil, iskanje po članu in prikaz neporavnanih obveznosti.</p>
-      <a href="http://localhost:5176" target="_blank" rel="noreferrer">
+      <a href="http://localhost:4176" target="_blank" rel="noreferrer">
         Odpri Payment Frontend
       </a>
     </div>

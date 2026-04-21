@@ -1,0 +1,95 @@
+name: Build and Push Docker Images
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push member-service
+        uses: docker/build-push-action@v6
+        with:
+          context: ./member-management
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/member-service:latest
+
+      - name: Build and push subscription-service
+        uses: docker/build-push-action@v6
+        with:
+          context: ./subscription-management
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/subscription-service:latest
+
+      - name: Build and push payment-service
+        uses: docker/build-push-action@v6
+        with:
+          context: ./payment-management
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/payment-service:latest
+
+      - name: Build and push web-bff
+        uses: docker/build-push-action@v6
+        with:
+          context: ./web-bff
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/web-bff:latest
+
+      - name: Build and push mobile-bff
+        uses: docker/build-push-action@v6
+        with:
+          context: ./mobile-bff
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/mobile-bff:latest
+
+      - name: Build and push frontend-shell
+        uses: docker/build-push-action@v6
+        with:
+          context: ./frontend-shell
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/frontend-shell:latest
+
+      - name: Build and push member-frontend
+        uses: docker/build-push-action@v6
+        with:
+          context: ./member-frontend
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/member-frontend:latest
+
+      - name: Build and push subscription-frontend
+        uses: docker/build-push-action@v6
+        with:
+          context: ./subscription-frontend
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/subscription-frontend:latest
+          
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Build payment-service jar
+        run: |
+          cd payment-management
+          ./mvnw clean package
+
+      - name: Build and push payment-frontend
+        uses: docker/build-push-action@v6
+        with:
+          context: ./payment-frontend
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/payment-frontend:latest
