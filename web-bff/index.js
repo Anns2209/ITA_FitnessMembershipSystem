@@ -2,9 +2,11 @@ const express = require("express");
 const axios = require("axios");
 const grpc = require("@grpc/grpc-js");
 const protoLoader = require("@grpc/proto-loader");
+const cors = require("cors");
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 const path = require("path");
 
@@ -54,13 +56,21 @@ app.get("/subscription-status/:memberId", (req, res) => {
 app.post("/subscription", (req, res) => {
   const { memberId, type } = req.body;
 
-  subscriptionClient.CreateSubscription({ memberId, type }, (err, response) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
+  subscriptionClient.CreateSubscription(
+    {
+      memberId: parseInt(memberId),
+      type,
+    },
+    (err, response) => {
+      if (err) {
+        console.error("CreateSubscription error:", err);
+        return res.status(500).json({ error: err.message });
+      }
 
-    res.json(response);
-  });
+      console.log("CreateSubscription response:", response);
+      res.json(response);
+    }
+  );
 });
 
 app.listen(3000, () => {

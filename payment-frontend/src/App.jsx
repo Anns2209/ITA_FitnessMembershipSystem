@@ -8,36 +8,69 @@ function App() {
   const [memberId, setMemberId] = useState("");
   const [amount, setAmount] = useState("");
   const [searchMemberId, setSearchMemberId] = useState("");
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
   const fetchAllPayments = async () => {
-    const res = await axios.get(`${API_URL}/payments`);
-    setPayments(res.data);
+    try {
+      setError("");
+      setMessage("");
+      const res = await axios.get(`${API_URL}/payments`);
+      setPayments(res.data);
+    } catch (err) {
+      console.error(err);
+      setError("Napaka pri pridobivanju plačil.");
+    }
   };
 
   const fetchPaymentsByMember = async () => {
-    if (!searchMemberId) return;
-    const res = await axios.get(`${API_URL}/payments/${searchMemberId}`);
-    setPayments(res.data);
+    try {
+      if (!searchMemberId) return;
+      setError("");
+      setMessage("");
+      const res = await axios.get(`${API_URL}/payments/${searchMemberId}`);
+      setPayments(res.data);
+    } catch (err) {
+      console.error(err);
+      setError("Napaka pri iskanju plačil za člana.");
+    }
   };
 
   const fetchUnpaidPayments = async () => {
-    const res = await axios.get(`${API_URL}/payments/unpaid`);
-    setPayments(res.data);
+    try {
+      setError("");
+      setMessage("");
+      const res = await axios.get(`${API_URL}/payments/unpaid`);
+      setPayments(res.data);
+    } catch (err) {
+      console.error(err);
+      setError("Napaka pri pridobivanju neporavnanih plačil.");
+    }
   };
 
   const addPayment = async () => {
-    if (!memberId || !amount) return;
+    try {
+      if (!memberId || !amount) return;
 
-    await axios.post(`${API_URL}/payments`, null, {
-      params: {
-        memberId,
-        amount,
-      },
-    });
+      setError("");
+      setMessage("");
 
-    setMemberId("");
-    setAmount("");
-    fetchAllPayments();
+      const res = await axios.post(`${API_URL}/payments`, null, {
+        params: {
+          memberId,
+          amount,
+        },
+      });
+
+      console.log("Create payment response:", res.data);
+      setMessage("Plačilo je bilo uspešno dodano.");
+      setMemberId("");
+      setAmount("");
+      fetchAllPayments();
+    } catch (err) {
+      console.error(err);
+      setError("Napaka pri ustvarjanju plačila.");
+    }
   };
 
   useEffect(() => {
@@ -70,6 +103,18 @@ function App() {
       <button onClick={fetchPaymentsByMember}>Search</button>
       <button onClick={fetchAllPayments}>Show All</button>
       <button onClick={fetchUnpaidPayments}>Show Unpaid</button>
+
+      {message && (
+        <p style={{ color: "green" }}>
+          <strong>{message}</strong>
+        </p>
+      )}
+
+      {error && (
+        <p style={{ color: "red" }}>
+          <strong>{error}</strong>
+        </p>
+      )}
 
       <h2>Payments</h2>
       <ul>

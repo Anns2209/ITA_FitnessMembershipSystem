@@ -8,30 +8,43 @@ function App() {
   const [subscriptionType, setSubscriptionType] = useState("monthly");
   const [statusResult, setStatusResult] = useState(null);
   const [createResult, setCreateResult] = useState(null);
+  const [error, setError] = useState("");
 
   const checkStatus = async () => {
-    if (!memberId) return;
+    try {
+      setError("");
+      setStatusResult(null);
 
-    const res = await axios.get(`${API_URL}/subscription-status/${memberId}`);
-    setStatusResult(res.data);
+      const res = await axios.get(`${API_URL}/subscription-status/${memberId}`);
+      setStatusResult(res.data);
+    } catch (err) {
+      console.error(err);
+      setError("Napaka pri preverjanju statusa naročnine.");
+    }
   };
 
   const createSubscription = async () => {
-    if (!memberId || !subscriptionType) return;
+    try {
+      setError("");
+      setCreateResult(null);
 
-    const res = await axios.post(`${API_URL}/subscription`, {
-      memberId: parseInt(memberId),
-      type: subscriptionType,
-    });
+      const res = await axios.post(`${API_URL}/subscription`, {
+        memberId: Number(memberId),
+        type: subscriptionType,
+      });
 
-    setCreateResult(res.data);
+      console.log("Create subscription response:", res.data);
+      setCreateResult(res.data);
+    } catch (err) {
+      console.error(err);
+      setError("Napaka pri ustvarjanju naročnine.");
+    }
   };
 
   return (
     <div style={{ padding: "20px", fontFamily: "Arial" }}>
       <h1>Subscription Frontend</h1>
 
-      <h2>Create Subscription</h2>
       <input
         placeholder="Member ID"
         value={memberId}
@@ -46,20 +59,28 @@ function App() {
         <option value="yearly">yearly</option>
       </select>
 
-      <button onClick={createSubscription}>Create Subscription</button>
+      <div style={{ marginTop: "10px" }}>
+        <button onClick={createSubscription}>Create Subscription</button>
+        <button onClick={checkStatus} style={{ marginLeft: "10px" }}>
+          Check Status
+        </button>
+      </div>
 
       {createResult && (
         <p>
-          <strong>Response:</strong> {createResult.message}
+          <strong>Create response:</strong> {createResult.message}
         </p>
       )}
-
-      <h2>Check Subscription Status</h2>
-      <button onClick={checkStatus}>Check Status</button>
 
       {statusResult && (
         <p>
           <strong>Status:</strong> {statusResult.status}
+        </p>
+      )}
+
+      {error && (
+        <p style={{ color: "red" }}>
+          <strong>{error}</strong>
         </p>
       )}
     </div>
