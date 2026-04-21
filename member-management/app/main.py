@@ -1,11 +1,12 @@
 from fastapi import FastAPI
 from app.routes import router
 from app.database import engine, Base
-
+from fastapi.middleware.cors import CORSMiddleware
+import logging
 
 Base.metadata.create_all(bind=engine)
 
-from fastapi.middleware.cors import CORSMiddleware
+app = FastAPI(title="Member Management Service")
 
 app.add_middleware(
     CORSMiddleware,
@@ -15,13 +16,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app = FastAPI(title="Member Management Service")
-
 app.include_router(router)
 
-import logging
-
 logging.basicConfig(level=logging.INFO)
-
 logging.info("Member service started")
 
