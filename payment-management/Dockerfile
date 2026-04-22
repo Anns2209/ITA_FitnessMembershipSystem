@@ -1,8 +1,18 @@
+FROM eclipse-temurin:21-jdk AS build
+
+WORKDIR /app
+
+COPY .mvn .mvn
+COPY mvnw pom.xml ./
+COPY src src
+
+RUN ./mvnw -DskipTests package
+
 FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
-COPY target/payment-management-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /app/target/payment-management-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8080
 

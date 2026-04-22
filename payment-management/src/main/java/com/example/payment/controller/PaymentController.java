@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/payments")
-@CrossOrigin(origins = "*")
 public class PaymentController {
 
     private final PaymentService service;
