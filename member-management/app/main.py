@@ -21,3 +21,9 @@ app.include_router(router)
 logging.basicConfig(level=logging.INFO)
 logging.info("Member service started")
 
+@app.get("/health")
+def health_check():
+    return {
+        "status": "UP",
+        "service": "member-management"
+    }
