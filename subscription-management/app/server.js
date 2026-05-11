@@ -7,7 +7,7 @@ const packageDef = protoLoader.loadSync("proto/subscription.proto");
 const grpcObject = grpc.loadPackageDefinition(packageDef);
 const subscriptionPackage = grpcObject.subscription;
 
-
+const http = require("http");
 const server = new grpc.Server();
 
 // dodaj service
@@ -55,6 +55,8 @@ server.addService(subscriptionPackage.SubscriptionService.service, {
 
 });
 
+
+
 // start serverja
 server.bindAsync(
   "0.0.0.0:50051",
@@ -64,3 +66,18 @@ server.bindAsync(
     server.start();
   }
 );
+
+http.createServer((req, res) => {
+  if (req.url === "/health") {
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({
+      status: "UP",
+      service: "subscription-management"
+    }));
+  } else {
+    res.writeHead(404);
+    res.end();
+  }
+}).listen(50052, "0.0.0.0", () => {
+  console.log("Subscription health check running on port 50052");
+});
