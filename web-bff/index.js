@@ -21,14 +21,48 @@ const subscriptionClient = new subscriptionPackage.SubscriptionService(
   grpc.credentials.createInsecure()
 );
 
+let paymentFailures = 0;
+let paymentCircuitOpen = false;
+
+function recordPaymentFailure() {
+  paymentFailures++;
+
+  if (paymentFailures >= 3) {
+    paymentCircuitOpen = true;
+
+    setTimeout(() => {
+      paymentFailures = 0;
+      paymentCircuitOpen = false;
+      console.log("Payment circuit closed again");
+    }, 10000);
+  }
+}
+
 app.get("/members", async (req, res) => {
   const response = await axios.get("http://member-service:8000/members");
   res.json(response.data);
 });
 
 app.get("/payments", async (req, res) => {
-  const response = await axios.get("http://payment-service:8080/payments");
-  res.json(response.data);
+  if (paymentCircuitOpen) {
+    return res.status(503).json({
+      message: "Payment service temporarily unavailable",
+      pattern: "Circuit Breaker"
+    });
+  }
+
+  try {
+    const response = await axios.get("http://payment-service:8080/payments");
+    paymentFailures = 0;
+    res.json(response.data);
+  } catch (error) {
+    recordPaymentFailure();
+
+    res.status(503).json({
+      message: "Payment service unavailable",
+      pattern: "Circuit Breaker"
+    });
+  }
 });
 
 app.get("/dashboard/:memberId", async (req, res) => {
