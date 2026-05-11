@@ -107,6 +107,13 @@ app.post("/subscription", (req, res) => {
   );
 });
 
+app.get("/health", (req, res) => {
+  res.json({
+    status: "UP",
+    service: "web-bff"
+  });
+});
+
 app.listen(3000, () => {
   console.log("Web BFF running on port 3000");
 });

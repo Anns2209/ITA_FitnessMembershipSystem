@@ -1,7 +1,8 @@
-C:\Users\anagj\ITA_FitnessMembershipSystem\payment-management\src\main\java\com\example\payment\config\CorsConfig.java
-C:\Users\anagj\ITA_FitnessMembershipSystem\payment-management\src\main\java\com\example\payment\controller\PaymentController.java
-C:\Users\anagj\ITA_FitnessMembershipSystem\payment-management\src\main\java\com\example\payment\messaging\PaymentProducer.java
-C:\Users\anagj\ITA_FitnessMembershipSystem\payment-management\src\main\java\com\example\payment\model\Payment.java
-C:\Users\anagj\ITA_FitnessMembershipSystem\payment-management\src\main\java\com\example\payment\PaymentManagementApplication.java
-C:\Users\anagj\ITA_FitnessMembershipSystem\payment-management\src\main\java\com\example\payment\repository\PaymentRepository.java
-C:\Users\anagj\ITA_FitnessMembershipSystem\payment-management\src\main\java\com\example\payment\service\PaymentService.java
+/Users/gjorcheska/Documents/GitHub/ITA_FitnessMembershipSystem/payment-management/src/main/java/com/example/payment/PaymentManagementApplication.java
+/Users/gjorcheska/Documents/GitHub/ITA_FitnessMembershipSystem/payment-management/src/main/java/com/example/payment/config/CorsConfig.java
+/Users/gjorcheska/Documents/GitHub/ITA_FitnessMembershipSystem/payment-management/src/main/java/com/example/payment/controller/HealthController.java
+/Users/gjorcheska/Documents/GitHub/ITA_FitnessMembershipSystem/payment-management/src/main/java/com/example/payment/controller/PaymentController.java
+/Users/gjorcheska/Documents/GitHub/ITA_FitnessMembershipSystem/payment-management/src/main/java/com/example/payment/messaging/PaymentProducer.java
+/Users/gjorcheska/Documents/GitHub/ITA_FitnessMembershipSystem/payment-management/src/main/java/com/example/payment/model/Payment.java
+/Users/gjorcheska/Documents/GitHub/ITA_FitnessMembershipSystem/payment-management/src/main/java/com/example/payment/repository/PaymentRepository.java
+/Users/gjorcheska/Documents/GitHub/ITA_FitnessMembershipSystem/payment-management/src/main/java/com/example/payment/service/PaymentService.java

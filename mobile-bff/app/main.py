@@ -44,3 +44,10 @@ async def get_member_summary(member_id: int):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
+@app.get("/health")
+def health_check():
+    return {
+        "status": "UP",
+        "service": "mobile-bff"
+    }
