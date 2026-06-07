@@ -1,0 +1,210 @@
+service: fitness-membership-serverless
+frameworkVersion: "3"
+
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: eu-central-1
+  stage: ${opt:stage, 'dev'}
+  httpApi:
+    authorizers:
+      jwtAuthorizer:
+        type: request
+        functionName: jwtAuthorizer
+  environment:
+    AUTH_SECRET: ${env:AUTH_SECRET, 'local-development-secret'}
+    DATA_DIR: ${env:DATA_DIR, '/tmp/fitness-serverless-data'}
+    MEMBERS_TABLE: FitnessMembers-${sls:stage}
+    AUDIT_TABLE: FitnessAudit-${sls:stage}
+    NOTIFICATION_QUEUE_URL:
+      Ref: NotificationQueue
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+            - dynamodb:Query
+            - dynamodb:Scan
+          Resource:
+            - Fn::GetAtt: [MembersTable, Arn]
+            - Fn::GetAtt: [AuditTable, Arn]
+        - Effect: Allow
+          Action:
+            - sqs:SendMessage
+            - sqs:ReceiveMessage
+            - sqs:DeleteMessage
+          Resource:
+            - Fn::GetAtt: [NotificationQueue, Arn]
+        - Effect: Allow
+          Action:
+            - s3:GetObject
+            - s3:PutObject
+            - s3:DeleteObject
+          Resource:
+            - arn:aws:s3:::${self:custom.memberFilesBucket}/*
+
+functions:
+  login:
+    handler: src/handlers.login
+    events:
+      - httpApi:
+          path: /auth/login
+          method: post
+
+  registerMember:
+    handler: src/handlers.registerMember
+    events:
+      - httpApi:
+          path: /members
+          method: post
+          authorizer:
+            name: jwtAuthorizer
+
+  getMember:
+    handler: src/handlers.getMember
+    events:
+      - httpApi:
+          path: /members/{memberId}
+          method: get
+          authorizer:
+            name: jwtAuthorizer
+
+  checkIn:
+    handler: src/handlers.checkIn
+    events:
+      - httpApi:
+          path: /access/check-in
+          method: post
+          authorizer:
+            name: jwtAuthorizer
+
+  createSubscription:
+    handler: src/handlers.createSubscription
+    events:
+      - httpApi:
+          path: /subscriptions
+          method: post
+          authorizer:
+            name: jwtAuthorizer
+
+  createPayment:
+    handler: src/handlers.createPayment
+    events:
+      - httpApi:
+          path: /payments
+          method: post
+          authorizer:
+            name: jwtAuthorizer
+
+  uploadDocument:
+    handler: src/handlers.uploadDocument
+    events:
+      - httpApi:
+          path: /members/{memberId}/documents
+          method: post
+          authorizer:
+            name: jwtAuthorizer
+
+  memberDbChange:
+    handler: src/handlers.memberDbChange
+    events:
+      - stream:
+          type: dynamodb
+          arn:
+            Fn::GetAtt: [MembersTable, StreamArn]
+          batchSize: 10
+
+  documentUploaded:
+    handler: src/handlers.documentUploaded
+    events:
+      - s3:
+          bucket: ${self:custom.memberFilesBucket}
+          event: s3:ObjectCreated:*
+          existing: false
+
+  processNotification:
+    handler: src/handlers.processNotification
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt: [NotificationQueue, Arn]
+
+  nightlySubscriptionAudit:
+    handler: src/handlers.nightlySubscriptionAudit
+    events:
+      - schedule: cron(0 2 * * ? *)
+
+  gateSensorEvent:
+    handler: src/handlers.gateSensorEvent
+    events:
+      - eventBridge:
+          pattern:
+            source:
+              - fitness.gate
+            detail-type:
+              - IoTGateScan
+
+  paymentProviderWebhook:
+    handler: src/handlers.paymentProviderWebhook
+    events:
+      - httpApi:
+          path: /integrations/payment-provider
+          method: post
+
+  logAlert:
+    handler: src/handlers.logAlert
+    events:
+      - cloudwatchLog:
+          logGroup: /aws/lambda/fitness-membership-serverless-${sls:stage}
+          filter: "?ERROR ?AccessDenied ?PaymentFailed"
+
+  jwtAuthorizer:
+    handler: src/handlers.authorize
+
+custom:
+  memberFilesBucket: fitness-member-files-${sls:stage}
+
+resources:
+  Resources:
+    MembersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.MEMBERS_TABLE}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: memberId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: memberId
+            KeyType: HASH
+        StreamSpecification:
+          StreamViewType: NEW_AND_OLD_IMAGES
+
+    AuditTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.AUDIT_TABLE}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: auditId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: auditId
+            KeyType: HASH
+
+    NotificationQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: fitness-notifications-${sls:stage}
+
+    MemberFilesBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.memberFilesBucket}

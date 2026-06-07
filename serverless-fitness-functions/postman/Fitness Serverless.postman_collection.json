@@ -1,0 +1,123 @@
+{
+  "info": {
+    "name": "Fitness Serverless",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "token", "value": "" },
+    { "key": "memberId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const json = pm.response.json();",
+              "pm.collectionVariables.set('token', json.token);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "content-type", "value": "application/json" }],
+        "url": "{{baseUrl}}/auth/login",
+        "body": { "mode": "raw", "raw": "{\"email\":\"admin@fitness.local\",\"password\":\"secret\"}" }
+      }
+    },
+    {
+      "name": "Register Member",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const json = pm.response.json();",
+              "pm.collectionVariables.set('memberId', json.memberId);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "content-type", "value": "application/json" },
+          { "key": "authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": "{{baseUrl}}/members",
+        "body": { "mode": "raw", "raw": "{\"name\":\"Ana Novak\",\"email\":\"ana@example.com\",\"cardId\":\"CARD-1\"}" }
+      }
+    },
+    {
+      "name": "Get Member",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "authorization", "value": "Bearer {{token}}" }],
+        "url": "{{baseUrl}}/members/{{memberId}}"
+      }
+    },
+    {
+      "name": "Create Subscription",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "content-type", "value": "application/json" },
+          { "key": "authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": "{{baseUrl}}/subscriptions",
+        "body": { "mode": "raw", "raw": "{\"memberId\":\"{{memberId}}\",\"validUntil\":\"2099-01-01\",\"plan\":\"annual\"}" }
+      }
+    },
+    {
+      "name": "Create Payment",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "content-type", "value": "application/json" },
+          { "key": "authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": "{{baseUrl}}/payments",
+        "body": { "mode": "raw", "raw": "{\"memberId\":\"{{memberId}}\",\"amount\":49.9,\"status\":\"paid\"}" }
+      }
+    },
+    {
+      "name": "Check In",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "content-type", "value": "application/json" },
+          { "key": "authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": "{{baseUrl}}/access/check-in",
+        "body": { "mode": "raw", "raw": "{\"cardId\":\"CARD-1\"}" }
+      }
+    },
+    {
+      "name": "Upload Document",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "content-type", "value": "application/json" },
+          { "key": "authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": "{{baseUrl}}/members/{{memberId}}/documents",
+        "body": { "mode": "raw", "raw": "{\"fileName\":\"health.pdf\",\"contentType\":\"application/pdf\"}" }
+      }
+    },
+    {
+      "name": "Payment Provider Webhook",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "content-type", "value": "application/json" }],
+        "url": "{{baseUrl}}/integrations/payment-provider",
+        "body": { "mode": "raw", "raw": "{\"providerRef\":\"stripe_123\",\"memberId\":\"{{memberId}}\",\"amount\":25,\"status\":\"paid\"}" }
+      }
+    }
+  ]
+}
