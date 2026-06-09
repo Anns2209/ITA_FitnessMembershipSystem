@@ -4,11 +4,7 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends python3 make g++ \
-    && npm install --build-from-source \
-    && apt-get purge -y --auto-remove \
-    && rm -rf /var/lib/apt/lists/*
+RUN npm ci --omit=dev
 
 COPY . .
 

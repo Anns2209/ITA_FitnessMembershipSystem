@@ -1,16 +1,23 @@
-const sqlite3 = require("sqlite3").verbose();
+const { Pool } = require("pg");
 
-const db = new sqlite3.Database("./subscriptions.db");
-
-db.serialize(() => {
-  db.run(`
-    CREATE TABLE IF NOT EXISTS subscriptions (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      memberId INTEGER,
-      type TEXT,
-      status TEXT
-    )
-  `);
+const pool = new Pool({
+  connectionString:
+    process.env.DATABASE_URL ||
+    "postgresql://postgres:postgres@localhost:5432/subscriptiondb",
 });
 
-module.exports = db;
+async function initializeDatabase() {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS subscriptions (
+      id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+      member_id INTEGER NOT NULL,
+      type TEXT,
+      status TEXT NOT NULL
+    )
+  `);
+}
+
+module.exports = {
+  pool,
+  initializeDatabase,
+};

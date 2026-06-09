@@ -1,6 +1,7 @@
 const grpc = require("@grpc/grpc-js");
 const protoLoader = require("@grpc/proto-loader");
-const db = require("./database");
+const { initializeDatabase, pool } = require("./database");
+const service = require("./service");
 
 // naloži proto
 const packageDef = protoLoader.loadSync("proto/subscription.proto");
@@ -16,18 +17,16 @@ server.addService(subscriptionPackage.SubscriptionService.service, {
   CreateSubscription: (call, callback) => {
     console.log("Creating subscription for member:", call.request.memberId);
 
-    db.run(
-      "INSERT INTO subscriptions (memberId, type, status) VALUES (?, ?, ?)",
-      [call.request.memberId, call.request.type, "active"],
-      function (err) {
+    service.createSubscription(
+      call.request.memberId,
+      call.request.type,
+      (err, response) => {
         if (err) {
           console.error("DB error:", err);
           return callback(err);
         }
 
-        console.log("Subscription created with ID:", this.lastID);
-
-        callback(null, { message: "Subscription created" });
+        callback(null, response);
       }
     );
   },
@@ -35,20 +34,15 @@ server.addService(subscriptionPackage.SubscriptionService.service, {
   GetSubscriptionStatus: (call, callback) => {
     console.log("Fetching subscription for member:", call.request.memberId);
 
-    db.get(
-      "SELECT * FROM subscriptions WHERE memberId = ?",
-      [call.request.memberId],
-      (err, row) => {
+    service.getSubscriptionStatus(
+      call.request.memberId,
+      (err, response) => {
         if (err) {
           console.error("DB error:", err);
           return callback(err);
         }
 
-        if (!row) {
-          return callback(null, { status: "not found" });
-        }
-
-        callback(null, { status: row.status });
+        callback(null, response);
       }
     );
   }
@@ -58,26 +52,36 @@ server.addService(subscriptionPackage.SubscriptionService.service, {
 
 
 // start serverja
-server.bindAsync(
-  "0.0.0.0:50051",
-  grpc.ServerCredentials.createInsecure(),
-  () => {
-    console.log("gRPC server running on port 50051");
-    server.start();
-  }
-);
+async function start() {
+  await initializeDatabase();
 
-http.createServer((req, res) => {
-  if (req.url === "/health") {
-    res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({
-      status: "UP",
-      service: "subscription-management"
-    }));
-  } else {
-    res.writeHead(404);
-    res.end();
-  }
-}).listen(50052, "0.0.0.0", () => {
-  console.log("Subscription health check running on port 50052");
+  server.bindAsync(
+    "0.0.0.0:50051",
+    grpc.ServerCredentials.createInsecure(),
+    () => {
+      console.log("gRPC server running on port 50051");
+      server.start();
+    }
+  );
+
+  http.createServer((req, res) => {
+    if (req.url === "/health") {
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({
+        status: "UP",
+        service: "subscription-management"
+      }));
+    } else {
+      res.writeHead(404);
+      res.end();
+    }
+  }).listen(50052, "0.0.0.0", () => {
+    console.log("Subscription health check running on port 50052");
+  });
+}
+
+start().catch(async (err) => {
+  console.error("Failed to start subscription service:", err);
+  await pool.end();
+  process.exit(1);
 });
