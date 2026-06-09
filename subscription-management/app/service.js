@@ -1,34 +1,37 @@
-const db = require("./database");
+const { pool } = require("./database");
 
-function createSubscription(memberId, type, callback) {
-  db.run(
-    "INSERT INTO subscriptions (memberId, type, status) VALUES (?, ?, ?)",
-    [memberId, type, "active"],
-    function (err) {
-      if (err) return callback(err);
+function createService(db = pool) {
+  function createSubscription(memberId, type, callback) {
+    db.query(
+      "INSERT INTO subscriptions (member_id, type, status) VALUES ($1, $2, $3)",
+      [memberId, type, "active"]
+    )
+      .then(() => callback(null, { message: "Subscription created" }))
+      .catch(callback);
+  }
 
-      callback(null, { message: "Subscription created" });
-    }
-  );
-}
+  function getSubscriptionStatus(memberId, callback) {
+    db.query(
+      "SELECT status FROM subscriptions WHERE member_id = $1 ORDER BY id DESC LIMIT 1",
+      [memberId]
+    )
+      .then(({ rows }) => {
+        if (rows.length === 0) {
+          return callback(null, { status: "not found" });
+        }
 
-function getSubscriptionStatus(memberId, callback) {
-  db.get(
-    "SELECT * FROM subscriptions WHERE memberId = ?",
-    [memberId],
-    (err, row) => {
-      if (err) return callback(err);
+        callback(null, { status: rows[0].status });
+      })
+      .catch(callback);
+  }
 
-      if (!row) {
-        return callback(null, { status: "not found" });
-      }
-
-      callback(null, { status: row.status });
-    }
-  );
+  return {
+    createSubscription,
+    getSubscriptionStatus,
+  };
 }
 
 module.exports = {
-  createSubscription,
-  getSubscriptionStatus
+  ...createService(),
+  createService,
 };
