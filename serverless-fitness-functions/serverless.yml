@@ -19,8 +19,6 @@ provider:
     DATA_DIR: ${env:DATA_DIR, '/tmp/fitness-serverless-data'}
     MEMBERS_TABLE: FitnessMembers-${sls:stage}
     AUDIT_TABLE: FitnessAudit-${sls:stage}
-    NOTIFICATION_QUEUE_URL:
-      Ref: NotificationQueue
   iam:
     role:
       statements:
