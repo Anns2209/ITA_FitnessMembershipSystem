@@ -61,6 +61,7 @@ Namestitev odvisnosti:
 
 ```bash
 npm install
+npm --prefix frontend install
 ```
 
 Zagon testov:
@@ -79,6 +80,33 @@ Privzeti lokalni URL za `serverless-offline` je običajno:
 
 ```text
 http://localhost:3000
+```
+
+V drugem terminalu zaženite React frontend:
+
+```bash
+npm run frontend
+```
+
+Spletni vmesnik je dostopen na:
+
+```text
+http://localhost:5173
+```
+
+Frontend podpira:
+
+- prijavo in shranjevanje Bearer tokena,
+- registracijo in iskanje člana,
+- ustvarjanje naročnine,
+- beleženje plačila,
+- preverjanje vstopa,
+- registracijo dokumenta.
+
+API naslov lahko za drugo okolje spremenite z:
+
+```bash
+VITE_API_URL=https://vas-api.example.com npm run frontend
 ```
 
 ## Primeri zahtev
