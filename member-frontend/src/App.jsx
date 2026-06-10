@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import "./remote.css";
 
 const API_URL = "http://localhost:8000";
 
@@ -30,11 +31,24 @@ function App() {
   };
 
   useEffect(() => {
-    fetchMembers();
+    let active = true;
+
+    axios.get(`${API_URL}/members`).then((res) => {
+      if (active) {
+        setMembers(res.data);
+      }
+    });
+
+    return () => {
+      active = false;
+    };
   }, []);
 
   return (
-    <div style={{ padding: "20px", fontFamily: "Arial" }}>
+    <div
+      className="member-microfrontend"
+      style={{ padding: "20px", fontFamily: "Arial" }}
+    >
       <h1>Member Frontend</h1>
 
       <h2>Add Member</h2>
