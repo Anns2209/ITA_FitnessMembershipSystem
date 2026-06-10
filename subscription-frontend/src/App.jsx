@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import "./remote.css";
 
 const API_URL = "http://localhost:3000";
 
@@ -42,7 +43,10 @@ function App() {
   };
 
   return (
-    <div style={{ padding: "20px", fontFamily: "Arial" }}>
+    <div
+      className="subscription-microfrontend"
+      style={{ padding: "20px", fontFamily: "Arial" }}
+    >
       <h1>Subscription Frontend</h1>
 
       <input

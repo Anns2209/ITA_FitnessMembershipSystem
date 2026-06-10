@@ -104,25 +104,25 @@ services:
     build: ./frontend-shell
     container_name: frontend-shell
     ports:
-      - "4173:80"
+      - "4173:8080"
 
   member-frontend:
     build: ./member-frontend
     container_name: member-frontend
     ports:
-      - "4174:80"
+      - "4174:8080"
 
   subscription-frontend:
     build: ./subscription-frontend
     container_name: subscription-frontend
     ports:
-      - "4175:80"
+      - "4175:8080"
 
   payment-frontend:
     build: ./payment-frontend
     container_name: payment-frontend
     ports:
-      - "4176:80"
+      - "4176:8080"
 
 volumes:
   postgres_data:

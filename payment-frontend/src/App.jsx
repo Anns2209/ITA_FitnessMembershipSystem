@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import "./remote.css";
 
 const API_URL = "http://localhost:8081";
 
@@ -74,11 +75,32 @@ function App() {
   };
 
   useEffect(() => {
-    fetchAllPayments();
+    let active = true;
+
+    axios
+      .get(`${API_URL}/payments`)
+      .then((res) => {
+        if (active) {
+          setPayments(res.data);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        if (active) {
+          setError("Napaka pri pridobivanju plačil.");
+        }
+      });
+
+    return () => {
+      active = false;
+    };
   }, []);
 
   return (
-    <div style={{ padding: "20px", fontFamily: "Arial" }}>
+    <div
+      className="payment-microfrontend"
+      style={{ padding: "20px", fontFamily: "Arial" }}
+    >
       <h1>Payment Frontend</h1>
 
       <h2>Create Payment</h2>
